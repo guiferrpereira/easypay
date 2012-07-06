@@ -1,5 +1,3 @@
 require "easypay/version"
-
-module Easypay
-  # Your code goes here...
-end
+require "easypay/client"
+require "easypay/config/routes"
