@@ -1,3 +1,3 @@
-Easypay::Application.routes.draw do
+Rails.application.routes.draw do
   match 'easypay.:format' => 'client#notify'
 end
