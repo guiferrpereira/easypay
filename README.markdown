@@ -1,16 +1,27 @@
-== Overview
+Easypay
+=========
 
-This gem enables connection with Easypay API (www.easypay.pt)
+_Easypay_ is a Ruby client for the [Easypay](http://www.easypay.pt/) payment platform that allows payments with credit cards and (MB references to Portugal)
 
-Installation:
+Installation
+------------
 
-In your gemfile:
+OK. First, you need to talk with people from Easypay to get your credentials!
 
-* gem 'easypay'
+Now, let's install the gem via Rubygems:
+
+    $ gem install easypay
+
+Or in your Gemfile:
+
+    $ gem 'easypay'
+
+Usage
+-----
 
 After bundle:
 
-* rails generate easypay
+  $ rails generate easypay
 
 Check on your initializers folder for easypay.rb and change the parameters:
 
@@ -23,18 +34,24 @@ Usage:
 
 Start Easypay call:
 
-* Easypay::Client.new
+```ruby
+  Easypay::Client.new
+```
 
 If you don't configure your easypay.rb with these params, you can start your object like this:
 
-* Easypay::Client.new(:easypay_cin => xxxx, 
+```ruby
+  Easypay::Client.new(:easypay_cin => xxxx, 
                       :easypay_entity => xxxx, 
                       :easypay_user => xxxx, 
                       :easypay_code => xxxx, 
                       :easypay_ref_type => xxx, 
                       :easypay_country => xxxx)
-                      
+```                      
 
 In order to get one payment reference:
-* Easypay::Client.new.create_reference('token_you_generate', 'value_of_payment', 'client_language', 'client_name', 'client_mobile', 'client_email')
+
+```ruby
+  Easypay::Client.new.create_reference('token_you_generate', 'value_of_payment', 'client_language', 'client_name', 'client_mobile', 'client_email')
+```
 
