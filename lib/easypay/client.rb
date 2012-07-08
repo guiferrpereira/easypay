@@ -6,20 +6,27 @@ module Easypay
     def initialize *params
       if params.first.is_a?(Hash)
         hash_options = params.first
-        @easypay_cin = hash_options[:easypay_cin]
-        @easypay_user = hash_options[:easypay_user]
-        @easypay_entity = hash_options[:easypay_entity]
-        @easypay_code = hash_options[:easypay_code]
+        @easypay_cin = hash_options[:easypay_cin] || Easypay::Engine.config.cin
+        @easypay_user = hash_options[:easypay_user] || Easypay::Engine.config.user
+        @easypay_entity = hash_options[:easypay_entity] || Easypay::Engine.config.entity
+        @easypay_code = hash_options[:easypay_code] || Easypay::Engine.config.code
         @easypay_ref_type = hash_options[:easypay_ref_type] || "auto"
         @easypay_country = hash_options[:easypay_country] || "PT"
       elsif params.first
         puts "* warning: the method Easypay::Client.new(ep_cin, ep_user, ep_entity) is deprecated, use Easypay::Client.new(:easypay_cin => 'cin', :easypay_user => 'user', :easypay_entity => 'entity')"
-        @easypay_cin = params.shift
-        @easypay_user = params.shift
-        @easypay_entity = params.shift
-        @easypay_code = params.shift
+        @easypay_cin = params.shift || Easypay::Engine.config.cin
+        @easypay_user = params.shift || Easypay::Engine.config.user
+        @easypay_entity = params.shift || Easypay::Engine.config.entity
+        @easypay_code = params.shift || Easypay::Engine.config.code
         @easypay_ref_type = params.shift || "auto"
         @easypay_country = params.shift || "PT"
+      else
+        @easypay_cin = Easypay::Engine.config.cin
+        @easypay_user = Easypay::Engine.config.user
+        @easypay_entity = Easypay::Engine.config.entity
+        @easypay_code = Easypay::Engine.config.code
+        @easypay_ref_type = "auto"
+        @easypay_country = "PT"
       end
     end
     
