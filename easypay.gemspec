@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "easypay/version"
 
 Gem::Specification.new do |s|
   s.name        = "easypay"
-  s.version     = Easypay::VERSION
+  s.version     = "0.0.3"
   s.authors     = ["Guilherme Pereira"]
   s.email       = ["guiferrpereira@gmail.com"]
   s.homepage    = ""
