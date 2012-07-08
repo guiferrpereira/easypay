@@ -3,7 +3,7 @@ module Easypay
     
     unloadable
   
-    def notify
+    def index
       @atts = params
     
       @atts[:ep_entity] = params[:e]
