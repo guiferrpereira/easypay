@@ -9,7 +9,10 @@ Gem::Specification.new do |s|
   s.homepage    = ""
   s.summary     = %q{This Gem provides connection to easypay API}
   s.description = %q{This Gem provides connection to easypay API, that allow you to use credit cards and MB references to Portugal}
-
+  s.extra_rdoc_files = [
+    "README.rdoc"
+  ]
+  
   s.rubyforge_project = "easypay"
   
   s.add_dependency('nokogiri')

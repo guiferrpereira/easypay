@@ -1,0 +1,40 @@
+== Overview
+
+This gem enables connection with Easypay API (www.easypay.pt)
+
+Installation:
+
+In your gemfile:
+
+* gem 'easypay'
+
+After bundle:
+
+* rails generate easypay
+
+Check on your initializers folder for easypay.rb and change the parameters:
+
+* config.cin = CIN provided by Easypay 
+* config.user = USER provided by Easypay
+* config.entity = Entity provided by Easypay
+* config.code = Code is needed only if you don't have validation by IP Address (Configure on Easypay Backoffice)
+
+Usage:
+
+Start Easypay call:
+
+* Easypay::Client.new
+
+If you don't configure your easypay.rb with these params, you can start your object like this:
+
+* Easypay::Client.new(:easypay_cin => xxxx, 
+                      :easypay_entity => xxxx, 
+                      :easypay_user => xxxx, 
+                      :easypay_code => xxxx, 
+                      :easypay_ref_type => xxx, 
+                      :easypay_country => xxxx)
+                      
+
+In order to get one payment reference:
+* Easypay::Client.new.create_reference('token_you_generate', 'value_of_payment', 'client_language', 'client_name', 'client_mobile', 'client_email')
+

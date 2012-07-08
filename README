@@ -1,8 +1,0 @@
-= Easypay -- Client for Easypay API
-
-= Installing Easypay
-
-== Installing the Gem
-    $ gem install easypay
-
-== Usage

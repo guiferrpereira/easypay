@@ -32,7 +32,7 @@ module Easypay
     
     # API methods
 
-    def create_client_reference(token, value, lang, client_name=nil, client_mobile=nil, client_email=nil)
+    def create_reference(token, value, lang, client_name=nil, client_mobile=nil, client_email=nil)
       get "01BG",
         :t_key => token, 
         :t_value => value,
