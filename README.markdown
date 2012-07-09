@@ -1,7 +1,7 @@
 Easypay
 =========
 
-_Easypay_ is a Ruby client for the [Easypay](http://www.easypay.pt/) payment platform that allows payments with credit cards and (MB references to Portugal)
+_Easypay_ is a Ruby client for [Easypay](http://www.easypay.pt/) payment platform that allows payments with credit cards and (MB references to Portugal)
 
 Installation
 ------------
@@ -15,22 +15,22 @@ Now, let's install the gem via Rubygems:
 Or in your Gemfile:
 
     $ gem 'easypay'
-
-Usage
------
-
+    
 After bundle:
-
-  $ rails generate easypay
+    
+    $ rails generate easypay
 
 Check on your initializers folder for easypay.rb and change the parameters:
 
-* config.cin = CIN provided by Easypay 
-* config.user = USER provided by Easypay
-* config.entity = Entity provided by Easypay
-* config.code = Code is needed only if you don't have validation by IP Address (Configure on Easypay Backoffice)
+```ruby
+  config.cin = 'CIN provided by Easypay' 
+  config.user = 'USER provided by Easypay'
+  config.entity = 'Entity provided by Easypay'
+  config.code = 'Code is needed only if you don't have validation by IP Address (Configure on Easypay Backoffice)'
+```
 
-Usage:
+Usage
+-----
 
 Start Easypay call:
 

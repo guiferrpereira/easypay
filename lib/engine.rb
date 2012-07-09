@@ -7,8 +7,13 @@ module Easypay
   class Engine < Rails::Engine
 
     # Config defaults
-    config.widget_factory_name = "default factory name"
-    config.mount_at = '/'
+    config.easypay_notification_path = '/easypay/notifications.:format'
+    config.easypay_forward_path = '/easypay/forwards.:format'
+    config.easypay_payment_path = '/easypay/payments.:format'
+    config.cin = 'cin provided by Easypay'
+    config.user = 'user provided by Easypay'
+    config.entity = 'entity provided by Easypay'
+    config.code = ''
     
     # Load rake tasks
     rake_tasks do
@@ -18,8 +23,9 @@ module Easypay
     # Check the gem config
     initializer "check config" do |app|
 
-      # make sure mount_at ends with trailing slash
-      config.mount_at += '/'  unless config.mount_at.last == '/'
+      # make sure all routes end with trailing slash
+      config.easypay_notification_path += '/'  unless config.easypay_notification_path.last == '/'
+      config.easypay_forward_path += '/'  unless config.easypay_forward_path.last == '/'
     end
     
     initializer "static assets" do |app|

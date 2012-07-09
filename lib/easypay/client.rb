@@ -32,12 +32,15 @@ module Easypay
     
     # API methods
 
-    def create_reference(token, value, lang, client_name=nil, client_mobile=nil, client_email=nil)
+    def create_reference(token, value, lang, client_name=nil, client_mobile=nil, client_email=nil, client_observation=nil, item_description=nil)
+      
       get "01BG",
         :t_key => token, 
         :t_value => value,
         :ep_language => lang.upcase,
         :o_name => client_name.nil? ? "" : URI.escape(client_name),
+        :o_description => item_description.nil? ? "" : URI.escape(item_description),
+        :o_obs => client_observation.nil? ? "" : URI.escape(client_observation),
         :o_mobile => client_mobile.nil? ? "" : client_mobile,
         :o_email => client_email.nil? ? "" : URI.escape(client_email)
         # :ep_rec => "yes", # Reccurrence stuff
@@ -45,20 +48,20 @@ module Easypay
         # :ep_rec_url => url_notification_cc
     end
     
-    def get_payment_detail(ep_key,ep_doc)
+    def get_payment_detail(ep_key, ep_doc)
       get "03AG",
         :ep_key => ep_key, 
         :ep_doc => ep_doc
     end
     
-    def get_payment_listings(type="last", detail=10, format="xml")
+    def get_payment_list(type="last", detail=10, format="xml")
       get "040BG1",
           :o_list_type => type,
           :o_ini => detail,
           :type => format
     end
     
-    def request_single_payment(reference, value, identifier)
+    def request_payment(reference, value, identifier)
       get "05AG",
           :e => @easypay_entity,
           :r => reference,
@@ -116,6 +119,8 @@ module Easypay
         response = create_http.get(url, nil)
         
         result = { :endpoint => EASYPAY_SERVICE_URL, :url => url, :raw => response.body }
+        
+        Easypay::Log.create(:request_type => "Request", :request_url => "#{EASYPAY_SERVICE_URL}#{url}", :raw => response.body)
   
         return parse_content(result)
         
