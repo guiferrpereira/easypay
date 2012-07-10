@@ -61,9 +61,9 @@ module Easypay
           :type => format
     end
     
-    def request_payment(reference, value, identifier)
+    def request_payment(entity, reference, value, identifier)
       get "05AG",
-          :e => @easypay_entity,
+          :e => entity,
           :r => reference,
           :v => value,
           :k => identifier
@@ -121,7 +121,7 @@ module Easypay
         result = { :endpoint => EASYPAY_SERVICE_URL, :url => url, :raw => response.body }
         
         Easypay::Log.create(:request_type => "Request", :request_url => "#{EASYPAY_SERVICE_URL}#{url}", :raw => response.body)
-  
+        
         return parse_content(result)
         
       rescue Exception => ex

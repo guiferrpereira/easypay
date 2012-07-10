@@ -1,4 +1,8 @@
-<h2>Success Payment Test Page</h2>
+<%if @status.starts_with? "ok"%>
+  <h2>Success Payment Test Page</h2>
+<%else%>
+  <h2>Error on your Payment</h2>
+<%end%>
 <div>
   Status : <%=@status.to_s%>
 </div>

@@ -19,17 +19,17 @@ module Easypay
     end
     
     def notification_to_forward
-      # e=10611&r=810302231&v=7&s=ok&k=C36D4995CBF3574ADD8664BA26514181C9EA8737&t_key=CCCSOKCSO
-      # Update a PaymentReference
-      
+      # e=10611&r=810302231&v=7&s=ok&k=C36D4995CBF3574ADD8664BA26514181C9EA8737&t_key=CCCSOKCSO      
       if params[:s].starts_with? "ok" and params[:k].present?
-        # params[:e] # params[:r] # params[:v] # params[:s] # params[:k] # params[:t_key] # sucesso no pagamento
-        r_payment = Easypay::Client.new.request_payment(params[:r], params[:v], params[:k])
+        r_payment = Easypay::Client.new.request_payment(params[:e], params[:r], params[:v], params[:k])
+        unless r_payment[:s].starts_with? "ok"
+          #quando falha o pagamento
+        end
+      else
+        #quando falha a autorizacao do cartao
       end
       
-      logger.debug params[:s]
-      
-      redirect_to Easypay::Engine.config.redirect_after_payment_path#, :status => params[:s], :key => params[:t_key])
+      redirect_to payment_redirect_url(:status => params[:s], :ep_key => params[:t_key])
     end
     
     def notification_from_mb_payment

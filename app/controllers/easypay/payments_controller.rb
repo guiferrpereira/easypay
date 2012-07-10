@@ -2,7 +2,7 @@ module Easypay
   class PaymentsController < ApplicationController
     def complete
       # After payment success
-      @key = params[:key]
+      @key = params[:ep_key]
       @status = params[:status]
       respond_to do |format|
         format.html
