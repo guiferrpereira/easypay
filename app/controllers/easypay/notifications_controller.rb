@@ -20,13 +20,19 @@ module Easypay
     
     def notification_to_forward
       # e=10611&r=810302231&v=7&s=ok&k=C36D4995CBF3574ADD8664BA26514181C9EA8737&t_key=CCCSOKCSO
+      # Update a PaymentReference
       
-      respond_to do |format|
-        format.xml
+      if params[:s].starts_with? "ok" and params[:k].present?
+        # params[:e] # params[:r] # params[:v] # params[:s] # params[:k] # params[:t_key] # sucesso no pagamento
+        r_payment = Easypay::Client.new.request_payment(params[:r], params[:v], params[:k])
       end
+      
+      logger.debug params[:s]
+      
+      redirect_to Easypay::Engine.config.redirect_after_payment_path#, :status => params[:s], :key => params[:t_key])
     end
     
-    def notification_from_payment
+    def notification_from_mb_payment
       
       # params = "ep_cin=8103&ep_user=OUTITUDE&ep_doc=EASYTEST28083120120709182740"
       

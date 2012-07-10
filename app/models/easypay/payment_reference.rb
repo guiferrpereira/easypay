@@ -10,5 +10,9 @@ module Easypay
       self.ep_key = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{self.created_at}--")[8..32]
     end
     
+    # def create_reference
+      # ep = Easypay::Client.new.create_reference(self.ep_key, 7, 'pt', 'Coca Cola', '919998822', 'guiferrpereira@gmail.pt')
+    # end
+    
   end
 end
