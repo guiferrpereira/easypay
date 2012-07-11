@@ -7,8 +7,9 @@ module Easypay
   
     def simple_notification
       # c=PT&e=10611&r=810302231&v=7&l=PT&t_key=
+      payment_reference = PaymentReference.find_by_ep_reference_and_ep_value(params[:e], params[:v])
       @atts = params
-    
+      
       @atts[:ep_entity] = params[:e]
       @atts[:ep_reference] = params[:r]
       @atts[:ep_value] = params[:v]

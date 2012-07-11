@@ -1,6 +1,7 @@
 class CreateEasypayTables < ActiveRecord::Migration
   def self.up
     create_table :easypay_payment_references, :force => true do |t|
+      t.integer   :payable_id
       t.string    :ep_key
       t.string    :ep_doc
       t.string    :ep_cin
@@ -43,12 +44,13 @@ class CreateEasypayTables < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :easypay_notifications, :ep_key, :unique => true
-    add_index :easypay_notifications, :ep_doc, :unique => true
+    add_index :easypay_payment_references, :payable_id
+    add_index :easypay_payment_references, :ep_key, :unique => true
+    add_index :easypay_payment_references, :ep_doc, :unique => true
   end
 
   def self.down
-    drop_table :easypay_notifications
+    drop_table :easypay_payment_references
     drop_table :easypay_requests
   end
 end
