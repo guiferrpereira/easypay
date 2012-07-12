@@ -4,13 +4,13 @@ module Easypay
     
     attr_protected
     
-    def process(object)
+    def process(object, options = {})
       @object = object
       
       if compliant?
         self.update_attributes(handle_model_methods)
         
-        payment_reference = Easypay::Client.new.create_reference(self)
+        payment_reference = Easypay::Client.new(options).create_reference(self)
         
         self.update_attributes( :ep_message => payment_reference[:ep_message],
                                 :ep_reference => payment_reference[:ep_reference],
@@ -19,7 +19,9 @@ module Easypay
                                 :ep_entity => payment_reference[:ep_entity],
                                 :ep_link => payment_reference[:payment_link],
                                 :ep_last_status => payment_reference[:ep_status],
-                                :request_log => payment_reference[:raw])
+                                :request_log => payment_reference[:raw],
+                                :item_description => payment_reference[:item_description],
+                                :item_quantity => payment_reference[:item_quantity])
                                 
         return payment_reference
       else
@@ -51,7 +53,9 @@ module Easypay
         :o_description  => @object.easypay_options[:o_description], 
         :o_obs => @object.easypay_options[:o_obs],
         :o_email => @object.easypay_options[:o_email],
-        :o_mobile  => @object.easypay_options[:o_mobile]
+        :o_mobile  => @object.easypay_options[:o_mobile],
+        :item_description => @object.easypay_options[:item_description],
+        :item_quantity => @object.easypay_options[:item_quantity]
       }
     end
     

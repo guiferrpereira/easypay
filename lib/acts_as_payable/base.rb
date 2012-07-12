@@ -22,7 +22,9 @@ module Easypay
               :o_description  => args[:description] || "description", 
               :o_obs => args[:obs] || "obs",
               :o_email => args[:email] || "email",
-              :o_mobile  => args[:mobile] || "mobile"
+              :o_mobile => args[:mobile] || "mobile",
+              :item_description => args[:item_description] || "item_description",
+              :item_quantity => args[:item_quantity] || "item_quantity"
             } 
           end
           
@@ -32,8 +34,8 @@ module Easypay
       
       module InstanceMethods
         
-        def create_payment_reference
-          Easypay::PaymentReference.new.process(self)
+        def create_payment_reference(options={})
+          Easypay::PaymentReference.new.process(self, options)
         end
                 
       end # InstanceMethods

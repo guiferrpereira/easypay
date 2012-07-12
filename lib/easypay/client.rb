@@ -32,9 +32,7 @@ module Easypay
     
     # API methods
 
-    # def create_reference(token, value, lang, client_name=nil, client_mobile=nil, client_email=nil, client_observation=nil, item_description=nil)
     def create_reference(object)
-            
       get "01BG",
         :t_key => object.ep_key, 
         :t_value => object.ep_value,
@@ -142,13 +140,11 @@ module Easypay
         result[:payment_link] = doc.at("ep_link").text unless doc.at("ep_link").nil?
         result[:ep_reference] = doc.at("ep_reference").text unless doc.at("ep_reference").nil?
       end
-      
+      # TODO - ugly i know - must create decent Parser
       result[:ep_status] = doc.at("ep_status").text unless doc.at("ep_status").nil?
       result[:ep_cin] = doc.at("ep_cin").text unless doc.at("ep_cin").nil?
       result[:ep_user] = doc.at("ep_user").text unless doc.at("ep_user").nil?
       result[:ep_entity] = doc.at("ep_entity").text unless doc.at("ep_entity").nil?
-      
-      
       result[:t_key] = doc.at("t_key").text unless doc.at("t_key").nil?
       result[:ep_doc] = doc.at("ep_doc").text unless doc.at("ep_doc").nil?
       result[:ep_payment_type] = doc.at("ep_payment_type").text unless doc.at("ep_payment_type").nil?

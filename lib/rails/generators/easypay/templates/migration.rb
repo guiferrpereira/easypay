@@ -33,6 +33,8 @@ class CreateEasypayTables < ActiveRecord::Migration
       t.text      :o_obs
       t.string    :o_email
       t.string    :o_mobile
+      t.string    :item_description
+      t.integer   :item_quantity
       
       t.timestamps
     end
