@@ -32,17 +32,18 @@ module Easypay
     
     # API methods
 
-    def create_reference(token, value, lang, client_name=nil, client_mobile=nil, client_email=nil, client_observation=nil, item_description=nil)
-      
+    # def create_reference(token, value, lang, client_name=nil, client_mobile=nil, client_email=nil, client_observation=nil, item_description=nil)
+    def create_reference(object)
+            
       get "01BG",
-        :t_key => token, 
-        :t_value => value,
-        :ep_language => lang.upcase,
-        :o_name => client_name.nil? ? "" : URI.escape(client_name),
-        :o_description => item_description.nil? ? "" : URI.escape(item_description),
-        :o_obs => client_observation.nil? ? "" : URI.escape(client_observation),
-        :o_mobile => client_mobile.nil? ? "" : client_mobile,
-        :o_email => client_email.nil? ? "" : URI.escape(client_email)
+        :t_key => object.ep_key, 
+        :t_value => object.ep_value,
+        :ep_language => object.ep_language.upcase,
+        :o_name =>  object.o_name.nil? ? "" : URI.escape(object.o_name),
+        :o_description => object.o_description.nil? ? "" : URI.escape(object.o_description),
+        :o_obs => object.o_obs.nil? ? "" : URI.escape(object.o_obs),
+        :o_mobile => object.o_mobile.nil? ? "" : object.o_mobile,
+        :o_email => object.o_email.nil? ? "" : URI.escape(object.o_email)
         # :ep_rec => "yes", # Reccurrence stuff
         # :ep_rec_freq => recurrence,
         # :ep_rec_url => url_notification_cc
@@ -125,7 +126,7 @@ module Easypay
         return parse_content(result)
         
       rescue Exception => ex
-        return { :success => false, :error => ex.message }
+        return { :success => false, :ep_message => ex.message }
       end
     end
     
@@ -133,14 +134,37 @@ module Easypay
       doc = Nokogiri::XML(result[:raw])
       
       if doc.at("ep_status").nil? or !doc.at("ep_status").text.starts_with? "ok"
-        result[:error] = doc.at("ep_message").nil? ? "Invalid xml format" : doc.at("ep_message").text
+        result[:ep_message] = doc.at("ep_message").nil? ? "Invalid xml format" : doc.at("ep_message").text
         result[:success] = false
       else
-        result[:payment_link] = doc.at("ep_link").text unless doc.at("ep_link").nil?
-        result[:reference] = doc.at("ep_reference").text unless doc.at("ep_reference").nil?
+        result[:ep_message] = doc.at("ep_message").nil? ? "Success" : doc.at("ep_message").text
         result[:success] = true
+        result[:payment_link] = doc.at("ep_link").text unless doc.at("ep_link").nil?
+        result[:ep_reference] = doc.at("ep_reference").text unless doc.at("ep_reference").nil?
       end
       
+      result[:ep_status] = doc.at("ep_status").text unless doc.at("ep_status").nil?
+      result[:ep_cin] = doc.at("ep_cin").text unless doc.at("ep_cin").nil?
+      result[:ep_user] = doc.at("ep_user").text unless doc.at("ep_user").nil?
+      result[:ep_entity] = doc.at("ep_entity").text unless doc.at("ep_entity").nil?
+      
+      
+      result[:t_key] = doc.at("t_key").text unless doc.at("t_key").nil?
+      result[:ep_doc] = doc.at("ep_doc").text unless doc.at("ep_doc").nil?
+      result[:ep_payment_type] = doc.at("ep_payment_type").text unless doc.at("ep_payment_type").nil?
+      result[:ep_value] = doc.at("ep_value").text unless doc.at("ep_value").nil?
+      result[:ep_value_fixed] = doc.at("ep_value_fixed").text unless doc.at("ep_value_fixed").nil?
+      result[:ep_value_var] = doc.at("ep_value_var").text unless doc.at("ep_value_var").nil?
+      result[:ep_value_tax] = doc.at("ep_value_tax").text unless doc.at("ep_value_tax").nil?
+      result[:ep_value_transf] = doc.at("ep_value_transf").text unless doc.at("ep_value_transf").nil?
+      result[:ep_date_transf] = doc.at("ep_date_transf").text unless doc.at("ep_date_transf").nil?
+      result[:ep_date_read] = doc.at("ep_date_read").text unless doc.at("ep_date_read").nil?
+      result[:ep_status_read] = doc.at("ep_status_read").text unless doc.at("ep_status_read").nil?
+      result[:o_obs] = doc.at("o_obs").text unless doc.at("o_obs").nil?
+      result[:o_email] = doc.at("o_email").text unless doc.at("o_email").nil?
+      result[:o_mobile] = doc.at("o_mobile").text unless doc.at("o_mobile").nil?
+      result[:ep_date] = doc.at("ep_date").text unless doc.at("ep_date").nil?
+
       return result
     end
   end

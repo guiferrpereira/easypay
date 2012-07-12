@@ -24,6 +24,8 @@ class CreateEasypayTables < ActiveRecord::Migration
       t.string    :ep_transf_number
       t.text      :ep_message
       t.text      :request_log
+      t.string    :ep_last_status
+      t.text      :ep_link
       
       t.string    :o_key
       t.string    :o_name

@@ -7,35 +7,47 @@ module Easypay
   
     def simple_notification
       # c=PT&e=10611&r=810302231&v=7&l=PT&t_key=
-      payment_reference = PaymentReference.find_by_ep_reference_and_ep_value(params[:e], params[:v])
-      @atts = params
-      
-      @atts[:ep_entity] = params[:e]
-      @atts[:ep_reference] = params[:r]
-      @atts[:ep_value] = params[:v]
-      
+      @payment_reference = PaymentReference.find_by_ep_reference_and_ep_value(params[:r], params[:v])
+      # preciso de por os dados da morada do cliente, NIF etc
       respond_to do |format|
         format.xml
       end
     end
     
     def notification_to_forward
-      # e=10611&r=810302231&v=7&s=ok&k=C36D4995CBF3574ADD8664BA26514181C9EA8737&t_key=CCCSOKCSO      
+      # e=10611&r=810302231&v=7&s=ok&k=C36D4995CBF3574ADD8664BA26514181C9EA8737&t_key=CCCSOKCSO
+      payment_reference = PaymentReference.find_by_ep_reference_and_ep_key(params[:r], params[:t_key])
+      
       if params[:s].starts_with? "ok" and params[:k].present?
-        r_payment = Easypay::Client.new.request_payment(params[:e], params[:r], params[:v], params[:k])
-        unless r_payment[:s].starts_with? "ok"
-          #quando falha o pagamento
-        end
-      else
-        #quando falha a autorizacao do cartao
+        payment_reference.update_attribute(:o_key, params[:k]) unless payment_reference.nil?
+        
+        payment_detail = Easypay::Client.new.request_payment(params[:e], params[:r], params[:v], params[:k])
+
+        payment_reference.update_attributes(:ep_last_status => payment_detail[:ep_status], 
+                                            :ep_message => payment_detail[:ep_message]) unless payment_reference.nil?
       end
       
       redirect_to payment_redirect_url(:status => params[:s], :ep_key => params[:t_key])
     end
     
-    def notification_from_mb_payment
+    def notification_from_payment
+      #ep_cin=8103&ep_user=OUTITUDE&ep_doc=TESTOUTITUDE0088690520120712152503
+      payment_detail = Easypay::Client.new.get_payment_detail("", params[:ep_doc])
       
-      # params = "ep_cin=8103&ep_user=OUTITUDE&ep_doc=EASYTEST28083120120709182740"
+      payment_reference = PaymentReference.find_by_ep_reference_and_ep_key(payment_detail[:ep_reference], payment_detail[:t_key])
+      
+      payment_reference.update_attributes(:ep_doc => payment_detail[:ep_doc],
+                                          :ep_payment_type => payment_detail[:ep_payment_type],
+                                          :ep_value_fixed => payment_detail[:ep_value_fixed],
+                                          :ep_value_var => payment_detail[:ep_value_var],
+                                          :ep_value_tax => payment_detail[:ep_value_tax],
+                                          :ep_value_transf => payment_detail[:ep_value_transf],
+                                          :ep_date_transf => payment_detail[:ep_date_transf],
+                                          :ep_date_read => payment_detail[:ep_date_read],
+                                          :ep_status_read => payment_detail[:ep_status_read],
+                                          :o_obs => payment_detail[:o_obs],
+                                          :ep_date => payment_detail[:ep_date],
+                                          :ep_status => 'finalized') unless payment_reference.nil?
       
       respond_to do |format|
         format.xml

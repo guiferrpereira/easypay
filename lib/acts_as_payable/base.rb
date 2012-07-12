@@ -15,6 +15,7 @@ module Easypay
           
           define_method "easypay_options" do 
             { 
+              :payable_id => args[:id] || "id",
               :ep_value => args[:value] || "value",
               :ep_language  => args[:language] || "language",
               :o_name  => args[:name] || "name",
@@ -31,16 +32,8 @@ module Easypay
       
       module InstanceMethods
         
-        def create_reference
-        
-        end
-        
-        def factory_name
-          self.send(self.easypay_options[:ep_language])
-        end
-        
-        def payment_info
-          # method that retrieves payment_reference_info
+        def create_payment_reference
+          Easypay::PaymentReference.new.process(self)
         end
                 
       end # InstanceMethods
