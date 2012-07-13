@@ -40,7 +40,7 @@ module Easypay
         :o_name =>  object.o_name.nil? ? "" : URI.escape(object.o_name),
         :o_description => object.o_description.nil? ? "" : URI.escape(object.o_description),
         :o_obs => object.o_obs.nil? ? "" : URI.escape(object.o_obs),
-        :o_mobile => object.o_mobile.nil? ? "" : object.o_mobile,
+        :o_mobile => object.o_mobile.nil? ? "" : URI.escape(object.o_mobile),
         :o_email => object.o_email.nil? ? "" : URI.escape(object.o_email)
         # :ep_rec => "yes", # Reccurrence stuff
         # :ep_rec_freq => recurrence,

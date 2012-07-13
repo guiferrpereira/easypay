@@ -20,8 +20,13 @@ module Easypay
                                 :ep_link => payment_reference[:payment_link],
                                 :ep_last_status => payment_reference[:ep_status],
                                 :request_log => payment_reference[:raw],
-                                :item_description => payment_reference[:item_description],
-                                :item_quantity => payment_reference[:item_quantity])
+                                :item_description => self.item_description,
+                                :item_quantity => self.item_quantity,
+                                :o_name  => self.o_name,
+                                :o_description  => self.o_description, 
+                                :o_obs => self.o_obs,
+                                :o_email => self.o_email,
+                                :o_mobile  => self.o_mobile)
                                 
         return payment_reference
       else
