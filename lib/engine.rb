@@ -11,6 +11,8 @@ module Easypay
     config.easypay_forward_path = '/easypay/forwards.:format'
     config.easypay_payment_path = '/easypay/payments.:format'
     config.redirect_after_payment_path = '/easypay/completed'
+    config.redirect_payment_notification_path = '/easypay/payment_completed'
+    
     config.cin = 'cin provided by Easypay'
     config.user = 'user provided by Easypay'
     config.entity = 'entity provided by Easypay'
@@ -29,6 +31,7 @@ module Easypay
       config.easypay_forward_path += '/'  unless config.easypay_forward_path.last == '/'
       config.easypay_payment_path += '/'  unless config.easypay_payment_path.last == '/'
       config.redirect_after_payment_path += '/'  unless config.redirect_after_payment_path.last == '/'
+      config.redirect_payment_notification_path += '/'  unless config.redirect_payment_notification_path.last == '/'
     end
     
     initializer "static assets" do |app|

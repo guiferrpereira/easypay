@@ -8,5 +8,14 @@ module Easypay
         format.html
       end
     end
+    
+    def notify
+      # After payment success
+      @payment_reference = PaymentReference.find_by_payable_id(params[:payable_id])
+      
+      respond_to do |format|
+        format.html
+      end
+    end
   end
 end
