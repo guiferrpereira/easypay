@@ -52,16 +52,8 @@ module Easypay
                                             :o_obs => payment_detail[:o_obs],
                                             :ep_date => payment_detail[:ep_date],
                                             :ep_status => 'finalized') 
-        begin                                    
-          Net::HTTP.get_response(URI.parse(payment_notify_url(:payable_id => @payment_reference.payable_id)))
-        
-          respond_to do |format|
-            format.xml
-          end
-        rescue
-          # time out error! will redirect_to notification url and wait for 10 times of easypay spamming
-          redirect_to payment_notify_url(:payable_id => @payment_reference.payable_id)
-        end
+                                            
+        redirect_to payment_notify_url(:payable_id => @payment_reference.payable_id)
       end
     end
     
