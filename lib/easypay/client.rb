@@ -31,6 +31,17 @@ module Easypay
     end
     
     # API methods
+    def modify_payment_reference(object, action)
+      get "00BG",
+        :ep_ref => object.ep_reference,
+        :ep_delete => action.match("delete") ? "yes" : "",
+        :t_value => object.ep_value,
+        :o_name =>  object.o_name.nil? ? "" : URI.escape(object.o_name),
+        :o_description => object.o_description.nil? ? "" : URI.escape(object.o_description),
+        :o_obs => object.o_obs.nil? ? "" : URI.escape(object.o_obs),
+        :o_mobile => object.o_mobile.nil? ? "" : URI.escape(object.o_mobile),
+        :o_email => object.o_email.nil? ? "" : URI.escape(object.o_email)
+    end
 
     def create_reference(object)
       get "01BG",

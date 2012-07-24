@@ -34,6 +34,27 @@ module Easypay
       end
     end
     
+    # Update or delete payment reference
+    def modify(action, options = {})
+      @object = self
+      
+      response = Easypay::Client.new(options).modify_payment_reference(self, action)
+      
+      if action.to_s.match("delete")
+        self.update_attributes(:ep_status => "deleted") if response[:ep_status].starts_with? "ok"
+      else
+        self.update_attributes(:item_description => self.item_description,
+                               :item_quantity => self.item_quantity,
+                               :o_name  => self.o_name,
+                               :o_description  => self.o_description, 
+                               :o_obs => self.o_obs,
+                               :o_email => self.o_email,
+                               :o_mobile  => self.o_mobile)
+      end                       
+        
+      return response
+    end
+    
     protected
     
     def handle_model_methods
