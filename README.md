@@ -31,10 +31,9 @@ Check on your initializers folder for easypay.rb and change the parameters:
   config.entity = 'entity provided by Easypay'
 
   # Code is needed only if you don't have validation by IP Address
-  config.code = 'Code is needed only if you don't have validation by IP Address (Configure on Easypay Backoffice)'
+  config.code = "Code is needed only if you don't have validation by IP Address (Configure on Easypay Backoffice)"
   
   # Change routes in order to work them on your app
-  
   config.easypay_notification_path = '/easypay/notifications.:format'
   config.easypay_forward_path = '/easypay/forwards.:format'
   config.easypay_payment_path = '/easypay/payments.:format'
