@@ -3,13 +3,13 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "easypay"
-  s.version     = "1.0.2"
+  s.version     = "1.0.3"
   s.authors     = ["Guilherme Pereira"]
   s.email       = ["guiferrpereira@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{This Gem provides connection to easypay API}
   s.description = %q{This Gem provides connection to easypay API, that allow you to use credit cards and MB references to Portugal}
-  s.extra_rdoc_files = ["README.markdown"]
+  s.extra_rdoc_files = ["README.md"]
   
   s.rubyforge_project = "easypay"
   
