@@ -34,6 +34,7 @@ Check on your initializers folder for easypay.rb and change the parameters:
   config.code = 'Code is needed only if you don't have validation by IP Address (Configure on Easypay Backoffice)'
   
   # Change routes in order to work them on your app
+  
   config.easypay_notification_path = '/easypay/notifications.:format'
   config.easypay_forward_path = '/easypay/forwards.:format'
   config.easypay_payment_path = '/easypay/payments.:format'
@@ -50,7 +51,7 @@ In your model, add:
   acts_as_payable :name => 'your_model_name_attr_if_different_from_name', 
                   :email => 'your_model_email_attr_if_different_from_email', 
                   :mobile => 'your_model_mobile_attr_if_different_from_mobile',
-                  :item_description => ''your_model_item_description_attr_if_different_from_item_description', 
+                  :item_description => 'your_model_item_description_attr_if_different_from_item_description', 
                   :item_quantity => 'your_model_item_quantity_attr_if_different_from_item_quantity', 
                   :value => 'your_model_value_attr_if_different_from_value', 
                   :description => 'your_model_description_attr_if_description_from_email', 
