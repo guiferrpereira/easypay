@@ -6,13 +6,15 @@ module Easypay
     
     def process(object, options = {})
       @object = object
+      payable_type = @object.class.to_s
       
       if compliant?
         self.update_attributes(handle_model_methods)
         
         payment_reference = Easypay::Client.new(options).create_reference(self)
         
-        self.update_attributes( :ep_message => payment_reference[:ep_message],
+        self.update_attributes( :payable_type => payable_type,
+                                :ep_message => payment_reference[:ep_message],
                                 :ep_reference => payment_reference[:ep_reference],
                                 :ep_cin => payment_reference[:ep_cin],
                                 :ep_user => payment_reference[:ep_user],

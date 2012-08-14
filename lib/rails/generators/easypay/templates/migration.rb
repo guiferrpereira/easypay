@@ -2,6 +2,7 @@ class CreateEasypayTables < ActiveRecord::Migration
   def self.up
     create_table :easypay_payment_references, :force => true do |t|
       t.integer   :payable_id
+      t.string    :payable_type
       t.string    :ep_key
       t.string    :ep_doc
       t.string    :ep_cin
