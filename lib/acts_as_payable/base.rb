@@ -11,7 +11,7 @@ module Easypay
       
       module Config
         def acts_as_payable args = {}
-          has_many :payment_references,  :class_name => 'Easypay::PaymentReference', :foreign_key => "payable_id"
+          has_many :payment_references,  :class_name => 'Easypay::PaymentReference', :conditions => ["payable_type = '#{self.name.to_s}'"], :foreign_key => "payable_id"
           
           define_method "easypay_options" do 
             { 
